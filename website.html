@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Random Phrase Generator</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      color: #fff;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+
+    h1 {
+      font-weight: 700;
+      font-size: 3rem;
+      margin-bottom: 1rem;
+      text-shadow: 0 0 8px rgba(0,0,0,0.3);
+    }
+
+    .container {
+      background: rgba(255, 255, 255, 0.15);
+      padding: 2rem 3rem;
+      border-radius: 12px;
+      box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+      backdrop-filter: blur(6px);
+      -webkit-backdrop-filter: blur(6px);
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      width: 320px;
+    }
+
+    select, button {
+      width: 100%;
+      padding: 12px 16px;
+      border-radius: 10px;
+      border: none;
+      font-size: 1rem;
+      font-weight: 600;
+      outline: none;
+      cursor: pointer;
+    }
+
+    select {
+      margin-bottom: 1.25rem;
+      box-shadow: inset 0 0 8px rgba(255, 255, 255, 0.3);
+      background: #eee;
+      color: #4a148c;
+    }
+
+    select:focus {
+      box-shadow: inset 0 0 12px #ffd700;
+      background: #fff;
+    }
+
+    button {
+      background-color: #ffd700;
+      color: #4a148c;
+      box-shadow: 0 5px 15px rgba(255, 215, 0, 0.6);
+      transition: background-color 0.25s ease;
+    }
+
+    button:hover {
+      background-color: #ffea00;
+      box-shadow: 0 8px 25px rgba(255, 234, 0, 0.85);
+    }
+
+    .output {
+      margin-top: 1.75rem;
+      font-size: 2rem;
+      font-weight: 800;
+      text-align: center;
+      color: #ffd700;
+      text-shadow: 0 0 12px #ffd700;
+      min-height: 2.5rem;
+      user-select: none;
+    }
+  </style>
+</head>
+<body>
+  <h1>Wat komt er op de toets?</h1>
+  <div class="container">
+    <select id="subjectSelect">
+      <option value="" disabled selected>Selecteer een vak...</option>
+      <option value="natuurkunde">Natuurkunde</option>
+      <option value="wiskunde">Wiskunde</option>
+      <option value="nederlands">Nederlands</option>
+      <option value="scheikunde">Scheikunde</option>
+      <option value="geschiedenis">Geschiedenis</option>
+      <option value="engels">Engels</option>
+      <option value="biologie">Biologie</option>
+      <option value="aardrijkskunde">Aardrijkskunde</option>
+      <option value="informatica">Informatica</option>
+      <option value="economie">Economie</option>
+    </select>
+    <button id="generateBtn">Genereer zin</button>
+    <div class="output" id="outputArea"></div>
+  </div>
+
+  <script>
+    const button = document.getElementById('generateBtn');
+    const output = document.getElementById('outputArea');
+    const select = document.getElementById('subjectSelect');
+
+    const phrasesBySubject = {
+      natuurkunde: [
+        "Op de toets komt geen Shakespeare.",
+        "Op de toets komt geen fotosynthese.",
+        "Op de toets komt geen Napoleon.",
+        "Op de toets komt geen rijtjes Frans.",
+        "Op de toets komt geen belastingstelsel.",
+        "Op de toets komt geen platentektoniek.",
+        "Op de toets komt geen cellenleer.",
+        "Op de toets komt geen grammatica.",
+        "Op de toets komt geen integralen.",
+        "Op de toets komt geen HTML-code."
+      ],
+      wiskunde: [
+        "Op de toets komt geen zuur-base reactie.",
+        "Op de toets komt geen Tweede Wereldoorlog.",
+        "Op de toets komt geen spierweefsel.",
+        "Op de toets komt geen rijtjes Engels.",
+        "Op de toets komt geen overheidsbeleid.",
+        "Op de toets komt geen aardeplaten.",
+        "Op de toets komt geen programmeren.",
+        "Op de toets komt geen spellingregels.",
+        "Op de toets komt geen energieverlies.",
+        "Op de toets komt geen renaissancekunst."
+      ],
+      nederlands: [
+        "Op de toets komt geen programmeertaal.",
+        "Op de toets komt geen fotosynthese.",
+        "Op de toets komt geen zwaartekracht.",
+        "Op de toets komt geen wiskundige formule.",
+        "Op de toets komt geen kapitalisme.",
+        "Op de toets komt geen HTML-tag.",
+        "Op de toets komt geen aardkorst.",
+        "Op de toets komt geen chemische reactie.",
+        "Op de toets komt geen spiergroepen.",
+        "Op de toets komt geen algoritme."
+      ],
+      scheikunde: [
+        "Op de toets komt geen wiskundige matrix.",
+        "Op de toets komt geen middeleeuwse ridder.",
+        "Op de toets komt geen grammatica.",
+        "Op de toets komt geen bevolkingsexplosie.",
+        "Op de toets komt geen Engelse werkwoordsvormen.",
+        "Op de toets komt geen DNA-structuur.",
+        "Op de toets komt geen HTML-styling.",
+        "Op de toets komt geen Pythagorese stelling.",
+        "Op de toets komt geen economische inflatie.",
+        "Op de toets komt geen lichtbreking."
+      ],
+      geschiedenis: [
+        "Op de toets komt geen zwaartekracht.",
+        "Op de toets komt geen differentiaalvergelijking.",
+        "Op de toets komt geen algoritme.",
+        "Op de toets komt geen HTML-syntax.",
+        "Op de toets komt geen fotosynthese.",
+        "Op de toets komt geen belastingdruk.",
+        "Op de toets komt geen sinusgrafiek.",
+        "Op de toets komt geen programmeerlogica.",
+        "Op de toets komt geen moleculaire structuur.",
+        "Op de toets komt geen spierweefsel."
+      ],
+      engels: [
+        "Op de toets komt geen zwaartepunt.",
+        "Op de toets komt geen aderverkalking.",
+        "Op de toets komt geen industriële revolutie.",
+        "Op de toets komt geen netwerktopologie.",
+        "Op de toets komt geen economiecurve.",
+        "Op de toets komt geen Griekse mythologie.",
+        "Op de toets komt geen logaritmische schaal.",
+        "Op de toets komt geen atoommodel.",
+        "Op de toets komt geen regenwoudklimaat.",
+        "Op de toets komt geen sinusfunctie."
+      ],
+      biologie: [
+        "Op de toets komt geen HTML-code.",
+        "Op de toets komt geen economische groei.",
+        "Op de toets komt geen verovering van Troje.",
+        "Op de toets komt geen sinusregel.",
+        "Op de toets komt geen magnetisch veld.",
+        "Op de toets komt geen werkwoordspelling.",
+        "Op de toets komt geen programmeerstructuur.",
+        "Op de toets komt geen vulkaanuitbarsting.",
+        "Op de toets komt geen logaritmische functie.",
+        "Op de toets komt geen Shakespeare."
+      ],
+      aardrijkskunde: [
+        "Op de toets komt geen getaltheorie.",
+        "Op de toets komt geen DNA-keten.",
+        "Op de toets komt geen dramatische monoloog.",
+        "Op de toets komt geen weerstand.",
+        "Op de toets komt geen matrix-berekening.",
+        "Op de toets komt geen programmeertaal.",
+        "Op de toets komt geen zuur-base reactie.",
+        "Op de toets komt geen syntaxis.",
+        "Op de toets komt geen hartslagfrequentie.",
+        "Op de toets komt geen atoomstructuur."
+      ],
+      informatica: [
+        "Op de toets komt geen fotosynthese.",
+        "Op de toets komt geen veldslag.",
+        "Op de toets komt geen sinusfunctie.",
+        "Op de toets komt geen rijtjes Duits.",
+        "Op de toets komt geen klimaatcirkel.",
+        "Op de toets komt geen spiergroep.",
+        "Op de toets komt geen Romeinse keizer.",
+        "Op de toets komt geen zwaartekracht.",
+        "Op de toets komt geen bevolkingspiramide.",
+        "Op de toets komt geen literaire stijlfiguren."
+      ],
+      economie: [
+        "Op de toets komt geen logaritme.",
+        "Op de toets komt geen fotosynthese.",
+        "Op de toets komt geen verovering van Troje.",
+        "Op de toets komt geen stroomkring.",
+        "Op de toets komt geen celmembraan.",
+        "Op de toets komt geen Shakespeare.",
+        "Op de toets komt geen algoritmisch model.",
+        "Op de toets komt geen taalontleding.",
+        "Op de toets komt geen vulkanische eruptie.",
+        "Op de toets komt geen zenuwstelsel."
+      ]
+    };
+
+    button.addEventListener('click', () => {
+      const selectedValue = select.value;
+      if (!selectedValue) {
+        output.textContent = 'Selecteer eerst een vak!';
+        output.style.color = '#ff4c4c';
+        return;
+      }
+      output.style.color = '#ffd700';
+
+      const phrases = phrasesBySubject[selectedValue];
+      const randomPhrase = phrases[Math.floor(Math.random() * phrases.length)];
+
+      output.textContent = randomPhrase;
+    });
+  </script>
+</body>
+</html>
